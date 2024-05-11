@@ -9,11 +9,13 @@ Take control of your FiveM server's character animations like never before! Pixe
 🆓 **Free**: The script is completely free and provides high-quality animation control without any additional costs.
 
 
-[Download](https://github.com/pixelprecisiondev/adjustanim)
+[Download](https://github.com/pixelprecisiondev/pp-adjustanim)
 
 [YouTube trailer](https://youtu.be/dQ3mEsm3YdI)
 
 [Documentation](https://docs.pixelprecision.dev/adjust-animation)
+
+[Discord](https://discord.gg/pixelprecision)
 
 ~~[Forum CFX Post]~~ not yet
 
