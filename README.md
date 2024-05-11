@@ -9,15 +9,13 @@ Take control of your FiveM server's character animations like never before! Pixe
 🆓 **Free**: The script is completely free and provides high-quality animation control without any additional costs.
 
 
-[Download](https://store.pixelprecision.dev/category/bossmenu) 
+[Download](https://github.com/pixelprecisiondev/adjustanim)
 
-[YouTube trailer](https://www.youtube.com/watch?v=A9MmFJvT14M) 
+[YouTube trailer](https://youtu.be/dQ3mEsm3YdI)
 
-[Documentation](https://docs.pixelprecision.dev/bossmenu) 
+[Documentation](https://docs.pixelprecision.dev/adjust-animation)
 
-[Forum CFX Post](https://forum.cfx.re/t/paid-bossmenu-script-pixelprecision/5227912) 
-
-[Discord](https://discord.gg/pixelprecision)
+~~[Forum CFX Post]~~ not yet
 
 
 **Dependecies:**
