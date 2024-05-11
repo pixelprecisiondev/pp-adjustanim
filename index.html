@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <title>PP-Adjust</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            color: white;
+            font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+                Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            visibility: hidden;
+        }
+        .container {
+            border-radius: 5px;
+            border: 2px solid rgba(0, 97, 194, 0.8);
+            margin-left: 20px;
+            width: 25vh;
+            padding: 20px;
+            background-color: #101418;
+            background-image: radial-gradient(circle, rgba(0, 59, 117, 0.459) 40%, rgba(20, 26, 31, 0.781) 100%);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        @keyframes zoomOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        .visible {
+            animation: zoomIn 0.5s forwards;
+        }
+        .hidden {
+            animation: zoomOut 0.5s forwards;
+        }
+        .keys-list {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .key-pair {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            margin-bottom: 10px;
+        }
+        .key {
+            width: 2vh;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            height: 2vh;
+            border: 2px solid rgba(51, 153, 255, 0.6);
+            background-color: #003a75;
+            box-shadow: 0 0 16px 0 rgba(0, 107, 214, 0.7), 0px 2px 30px 0px rgba(0, 0, 0, 0.55) inset;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        .text {
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            color: white;
+            font-size: 1.1em;
+        }
+        .title-container {
+            border-radius: 20px;
+            border: 1px solid #0253a6;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            background-color: #0c2037;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .title {
+            margin: 5px 0;
+            padding: 0;
+            font-size: 25px;
+        }
+        .rotate-90 {
+            transform: rotate(90deg);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container hidden">
+        <div class="title-container">
+            <h1 class="title" id="title">Adjust animation</h1>
+        </div>
+        <div class="keys-list"></div>
+    </div>
+    <script>
+        const container = document.getElementById("container");
+        const translations = {};
+
+
+        const updateKeys = (keys) => {
+            const keysList = document.querySelector(".keys-list");
+            while (keysList.firstChild) {
+                keysList.removeChild(keysList.firstChild);
+            }
+
+            keys.forEach(({ key, text }) => {
+                const keyPairDiv = document.createElement("div");
+                keyPairDiv.classList.add("key-pair");
+
+                const keyDiv = document.createElement("div");
+                keyDiv.classList.add("key");
+
+                switch (key) {
+                    case "Enter":
+                        keyDiv.innerHTML = '<i class="fa-solid fa-arrow-turn-down rotate-90"></i>';
+                        break;
+                    case "Shift":
+                        keyDiv.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                        break;
+                    default:
+                        keyDiv.textContent = key;
+                        break;
+                }
+
+                const textSpan = document.createElement("span");
+                textSpan.classList.add("text");
+                textSpan.textContent = translations[text] || text;
+
+                keyPairDiv.appendChild(keyDiv);
+                keyPairDiv.appendChild(textSpan);
+
+                keysList.appendChild(keyPairDiv);
+            });
+        };
+
+        setTimeout(() => {
+            document.body.style.visibility = "visible";
+        }, 500);
+
+        window.addEventListener("message", (event) => {
+            const { action, data } = event.data;
+
+            if (action === "updateTranslations") {
+                
+                Object.assign(translations, data);
+            }
+
+            if (action === "open") {
+                document.getElementById('title').textContent = translations['title'] || 'Adjust animation';
+                updateKeys(data);
+                container.classList.add("visible");
+                container.classList.remove("hidden");
+            } else if (action === "close") {
+                container.classList.add("hidden");
+                container.classList.remove("visible");
+            }
+        });
+    </script>
+</body>
+</html>
