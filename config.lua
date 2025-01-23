@@ -68,6 +68,39 @@ Config.getCurrentAnimation = function()
             flag = movementFlag,
             command = 'e ' .. data.Command
         }
+    elseif GetResourceState('rpemotes-reborn') == 'started' then
+        local data = exports["rpemotes-reborn"]:getCurrentEmote()
+        if not data then return end
+        local MovementType = cache.vehicle and 51 or 0
+        if data.AnimationOptions then
+            if data.AnimationOptions.EmoteLoop then
+                MovementType = 1
+                if data.AnimationOptions.EmoteMoving then
+                    MovementType = 51
+                end
+    
+            elseif data.AnimationOptions.EmoteMoving then
+                MovementType = 51
+            elseif data.AnimationOptions.EmoteMoving == false then
+                MovementType = 0
+            elseif data.AnimationOptions.EmoteStuck then
+                MovementType = 50
+            end
+    
+        else
+            MovementType = 0
+        end
+    
+        if InVehicle == 1 then
+            MovementType = 51
+        end
+        if not IsEntityPlayingAnim(cache.ped, data[1], data[2], 3) then return end
+        return {
+            dict = data[1],
+            anim = data[2],
+            flag = MovementType,
+            command = 'e ' .. data[4]
+        }
     elseif GetResourceState('rpemotes') == 'started' then
         --[[
             =================================================================================================
